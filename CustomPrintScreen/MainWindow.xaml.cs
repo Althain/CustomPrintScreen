@@ -156,6 +156,7 @@ namespace CustomPrintScreen
                     }
                 }
 
+                Topmost = true;
                 Activate();
                 Show();
             }
