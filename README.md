@@ -1,5 +1,5 @@
 # CustomPrintScreen
-The project is for Windows, made in WPF on .NET4.0
+The project is for Windows, made in WPF on .NET4.5
 
 The project will allow you to chose what screen you want capture(if you have multiple monitors) and after the selection, saves the screen automatically to desktop. The project will(not done yet) allow you to crop the screenshot and than save it. 
 
