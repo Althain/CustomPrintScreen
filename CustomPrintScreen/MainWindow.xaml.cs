@@ -1,24 +1,34 @@
-﻿using System.Windows;
+using System.Windows;
 using Forms = System.Windows.Forms;
 using System.Windows.Controls;
 using System;
-using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace CustomPrintScreen
 {
     public partial class MainWindow : Window
     {
-        /// <summary>
-        /// Determines if the printscreen is simple or advanced.
-        /// If is simple, than user click the screen and that's all.
-        /// If is advanced than user can crop or save every image of prt sc
-        /// </summary>
+        private LowLevelKeyboardListener _listener;
 
         public MainWindow()
         {
             InitializeComponent();
-            //this.SourceInitialized += Window1_SourceInitialized;
+            _listener = new LowLevelKeyboardListener();
+            _listener.OnKeyPressed += _listener_OnKeyPressed;
+            _listener.HookKeyboard();
+        }
+
+        void _listener_OnKeyPressed(object sender, EventArgs e)
+        {
+            Handler.CreateScreens();
+            DrawApplication();
+            _listener.UnHookKeyboard();
+            _listener.HookKeyboard();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _listener.UnHookKeyboard();
         }
 
         /// <summary>
@@ -66,7 +76,7 @@ namespace CustomPrintScreen
                         {
                             HorizontalAlignment = HorizontalAlignment.Stretch,
                             VerticalAlignment = VerticalAlignment.Stretch,
-                            Width = SystemParameters.PrimaryScreenWidth * 0.9d / ScreensAmount*1.0d,
+                            Width = SystemParameters.PrimaryScreenWidth * 0.9d / ScreensAmount * 1.0d,
                             Margin = new Thickness(8, 0, 0, 0)
                         };
 
@@ -83,7 +93,7 @@ namespace CustomPrintScreen
                             HorizontalAlignment = HorizontalAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Center,
                             Orientation = Orientation.Horizontal
-                            
+
                         };
 
                         grid.Children.Add(sp);
@@ -126,7 +136,6 @@ namespace CustomPrintScreen
                         // Stucture
                         // Every screenshot will be a buttons's content.
                         // By pressing the button you save the image
-
                         Button btn = new Button()
                         {
                             Margin = new Thickness(8, 0, 0, 0),
@@ -147,7 +156,8 @@ namespace CustomPrintScreen
                     }
                 }
 
-                Application.Current.MainWindow.Show();
+                Activate();
+                Show();
             }
         }
 
@@ -174,33 +184,5 @@ namespace CustomPrintScreen
                 this.Left += (sizeInfo.PreviousSize.Width - sizeInfo.NewSize.Width) / 2;
             }
         }
-
-        /*private void Window1_SourceInitialized(object sender, EventArgs e)
-        {
-            WindowInteropHelper helper = new WindowInteropHelper(this);
-            HwndSource source = HwndSource.FromHwnd(helper.Handle);
-            source.AddHook(WndProc);
-        }
-
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            const int WM_SYSCOMMAND = 0x0112;
-            const int SC_MOVE = 0xF010;
-
-            switch (msg)
-            {
-                case WM_SYSCOMMAND:
-                    int command = wParam.ToInt32() & 0xfff0;
-                    if (command == SC_MOVE)
-                    {
-                        handled = true;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            return IntPtr.Zero;
-        }
-        */
     }
 }
