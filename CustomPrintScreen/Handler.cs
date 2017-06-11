@@ -10,6 +10,10 @@ using System.Runtime.InteropServices;
 
 namespace CustomPrintScreen
 {
+    /// <summary>
+    /// This class is responisble for:
+    /// Creating and holding screens, determining if the app is run in advanced mode and holds last capture time
+    /// </summary>
     class Handler
     {
         public static List<Drawing.Bitmap> Bitmaps = new List<Drawing.Bitmap>();
