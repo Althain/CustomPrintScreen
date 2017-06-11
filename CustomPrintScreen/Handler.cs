@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using Drawing = System.Drawing;
 using DrawingImg = System.Drawing.Imaging;
 using Forms = System.Windows.Forms;
@@ -17,7 +17,6 @@ namespace CustomPrintScreen
     class Handler
     {
         public static List<Drawing.Bitmap> Bitmaps = new List<Drawing.Bitmap>();
-        static List<Drawing.Graphics> bitmapsgraphics = new List<Drawing.Graphics>();
         public static bool AdvancedMode;
         public static string ShotTime;
 
@@ -30,23 +29,21 @@ namespace CustomPrintScreen
             {
                 Forms.Screen s = Forms.Screen.AllScreens[i];
 
+                if (s.Primary)
+                {
+                    Bitmaps.Add(ScreenCapture.CaptureScreen());
+                    continue;
+                }
+
                 //Create a new bitmap.
                 Bitmaps.Add(new Drawing.Bitmap(s.Bounds.Width,
                                    s.Bounds.Height,
                                    DrawingImg.PixelFormat.Format32bppArgb));
 
+
                 // Create a graphics object from the bitmap.
-                bitmapsgraphics.Add(Drawing.Graphics.FromImage(Bitmaps[i]));
-
-                // Take the screenshot from the upper left corner to the right bottom corner.
-                bitmapsgraphics[bitmapsgraphics.Count-1].CopyFromScreen(s.Bounds.X,
-                                            s.Bounds.Y,
-                                            0,
-                                            0,
-                                            s.Bounds.Size,
-                                            Drawing.CopyPixelOperation.SourceCopy);
-
-                
+                var tmp = Drawing.Graphics.FromImage(Bitmaps[i]);
+                tmp.CopyFromScreen(s.Bounds.X, s.Bounds.Y, 0, 0, s.Bounds.Size, Drawing.CopyPixelOperation.SourceCopy);
             }
         }
 
@@ -79,11 +76,9 @@ namespace CustomPrintScreen
             for(int i = Bitmaps.Count-1; i >= 0; i--)
             {
                 Bitmaps[i] = null;
-                bitmapsgraphics[i] = null;
             }
 
             Bitmaps.Clear();
-            bitmapsgraphics.Clear();
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
             mw.imgs.Children.Clear();
         }
@@ -97,7 +92,7 @@ namespace CustomPrintScreen
         {
             BitmapImage logo = new BitmapImage();
             logo.BeginInit();
-            logo.UriSource = new Uri("pack://application:,,,/KeyboardHook;component/Resources/"+name);
+            logo.UriSource = new Uri("pack://application:,,,/CustomPrintScreen;component/Resources/"+name);
             logo.EndInit();
 
             return logo;
