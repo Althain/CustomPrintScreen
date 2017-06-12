@@ -36,7 +36,6 @@ namespace CustomPrintScreen
         /// </summary>
         public static void CreateScreens()
         {
-            ClearData();
             ShotTime = DateTime.Now.Year.ToString() + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute;
 
             for (int i = 0; i < Forms.Screen.AllScreens.Length; i++)
@@ -100,10 +99,6 @@ namespace CustomPrintScreen
             {
                 Bitmaps[i].Dispose();
             }
-
-            MainWindow mw = (MainWindow)Application.Current.MainWindow;
-            mw.Hide();
-            mw.imgs.Children.Clear();
 
             Bitmaps.Clear();
         }

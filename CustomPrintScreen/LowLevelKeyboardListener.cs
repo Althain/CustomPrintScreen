@@ -84,6 +84,12 @@ namespace CustomPrintScreen
                     if (Application.Current.MainWindow.Visibility == Visibility.Visible)
                     { 
                         Handler.ClearData();
+                        MainWindow mw = (MainWindow)Application.Current.MainWindow;
+                        
+                        foreach(UIElement child in mw.imgs.Children)
+                        {
+                            mw.imgs.Children.Remove(child);
+                        }
                     }
                 }
             }
