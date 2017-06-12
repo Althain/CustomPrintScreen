@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace CustomPrintScreen
@@ -84,6 +85,12 @@ namespace CustomPrintScreen
                     {
                         Application.Current.MainWindow.Hide();
                         Handler.ClearData();
+                        MainWindow mw = (MainWindow)Application.Current.MainWindow;
+                        
+                        foreach(UIElement child in mw.imgs.Children)
+                        {
+                            mw.imgs.Children.Remove(child);
+                        }
                     }
                 }
             }
