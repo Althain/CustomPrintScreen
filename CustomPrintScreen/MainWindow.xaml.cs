@@ -36,7 +36,6 @@ namespace CustomPrintScreen
         /// </summary>
         public void DrawApplication()
         {
-            Handler.ShotTime = DateTime.Now.Year.ToString() + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute;
             int ScreensAmount = Forms.Screen.AllScreens.Length;
 
             // if user has one screen
@@ -126,7 +125,7 @@ namespace CustomPrintScreen
 
                         imgbuttons[1].Click += (sender, e) =>
                         {
-                            Handler.SaveScreen(dump);
+                            Handler.SaveScreen(dump, false);
                         };
 
                         #endregion
@@ -157,8 +156,8 @@ namespace CustomPrintScreen
                 }
 
                 Topmost = true;
-                Activate();
                 Show();
+                Activate();
             }
         }
 

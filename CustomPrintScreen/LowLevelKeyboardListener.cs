@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace CustomPrintScreen
@@ -81,8 +82,7 @@ namespace CustomPrintScreen
                 else if (keyPressed == Key.Escape)
                 {
                     if (Application.Current.MainWindow.Visibility == Visibility.Visible)
-                    {
-                        Application.Current.MainWindow.Hide();
+                    { 
                         Handler.ClearData();
                     }
                 }
