@@ -16,6 +16,12 @@ namespace CustomPrintScreen
             _listener = new LowLevelKeyboardListener();
             _listener.OnKeyPressed += _listener_OnKeyPressed;
             _listener.HookKeyboard();
+
+            (InfoBtn.Content as Image).Width = Forms.Screen.PrimaryScreen.WorkingArea.Width * 0.016f;
+            (SettingsBtn.Content as Image).Width = Forms.Screen.PrimaryScreen.WorkingArea.Width * 0.016f;
+            (CloseBtn.Content as Image).Width = Forms.Screen.PrimaryScreen.WorkingArea.Width * 0.016f;
+
+            Handler.mainWindow = this;
         }
 
         void _listener_OnKeyPressed(object sender, EventArgs e)
@@ -38,8 +44,8 @@ namespace CustomPrintScreen
         {
             int ScreensAmount = Forms.Screen.AllScreens.Length;
 
-            // if user has one screen
-            if (ScreensAmount == 1)
+            // if user has one screen and doesn't want the window to pop up
+            if (ScreensAmount == 1 && !Settings.PopupOnOneMonitor)
             {
                 // in advanced mode user will be able to crop and save
                 if (Handler.AdvancedMode)
@@ -161,11 +167,46 @@ namespace CustomPrintScreen
             }
         }
 
+        public void HideWindow(bool clearData = false)
+        {
+            Hide();
+            if(clearData)
+            {
+                imgs.Children.Clear();
+                Handler.ClearData();
+            }
+        }
+
+        public void CloseWindow()
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to quit the application?", "Exit Confirmation", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+                Close();
+        }
+
         void OpenCropWindow(int id)
         {
-            CropWindow cropwd = new CropWindow();
-            cropwd.Id = id;
-            cropwd.Show();
+            Hide();
+            Handler.cropWindow = new CropWindow();
+            Handler.cropWindow.Id = id;
+            Handler.cropWindow.Show();
+        }
+
+        void OpenInfoWindow()
+        {
+            Hide();
+            Handler.infoWindow = new InfoWindow();
+            Handler.infoWindow.Show();
+        }
+
+        void OpenSettingsWindow()
+        {
+            MessageBox.Show("Not done yet");
+            return;
+
+            Hide();
+            Handler.settingsWindow = new SettingsWindow();
+            Handler.settingsWindow.Show();
         }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -183,6 +224,26 @@ namespace CustomPrintScreen
             {
                 this.Left += (sizeInfo.PreviousSize.Width - sizeInfo.NewSize.Width) / 2;
             }
+        }
+
+        private void CloseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            CloseWindow();
+        }
+
+        private void HideBtn_Click(object sender, RoutedEventArgs e)
+        {
+            HideWindow(true);
+        }
+
+        private void SettingsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenSettingsWindow();
+        }
+
+        private void InfoBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenInfoWindow();
         }
     }
 }

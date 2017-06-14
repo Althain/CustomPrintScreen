@@ -31,12 +31,18 @@ namespace CustomPrintScreen
         /// </summary>
         static string ShotTime;
 
+        public static MainWindow mainWindow;
+        public static CropWindow cropWindow;
+        public static InfoWindow infoWindow;
+        public static SettingsWindow settingsWindow;
+
         /// <summary>
         /// Creates print screens, divides them into screens and saves in Handler.Bitmaps list
         /// </summary>
         public static void CreateScreens()
         {
-            ClearData();
+            mainWindow.HideWindow();
+
             ShotTime = DateTime.Now.Year.ToString() + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute;
 
             for (int i = 0; i < Forms.Screen.AllScreens.Length; i++)
@@ -69,22 +75,24 @@ namespace CustomPrintScreen
         /// <param name="id">Pointer to index of an array</param>
         public static void SaveScreen(int id, bool hideAppAfter = true)
         {
-            string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            Bitmaps[id]?.Save(GetFirstAvailableScreenName(), DrawingImg.ImageFormat.Png);
+
+            if (hideAppAfter)
+                Handler.mainWindow.HideWindow(true);
             
+        }
+
+        public static string GetFirstAvailableScreenName()
+        {
+            string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             for (int i = 0; ; i++)
             {
                 string add = i > 0 ? i.ToString() : "";
                 string fullname = DesktopPath + "/" + ShotTime + add + ".png";
                 if (!File.Exists(fullname))
                 {
-                    Bitmaps[id]?.Save(fullname, DrawingImg.ImageFormat.Png);
-                    break;
+                    return fullname;
                 }
-            }
-
-            if (hideAppAfter)
-            {
-                ClearData();
             }
         }
 
@@ -98,9 +106,6 @@ namespace CustomPrintScreen
                 Bitmaps[i].Dispose();
             }
 
-            MainWindow mw = (MainWindow)Application.Current.MainWindow;
-            mw.Hide();
-            mw.imgs.Children.Clear();
             Bitmaps.Clear();
         }
 

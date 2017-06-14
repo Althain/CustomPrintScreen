@@ -8,15 +8,24 @@
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
         Closing="Window_Closing"
-        Title="MainWindow" Height="0" Width="0" Background="#3FFFFFFF">
-    <Grid Margin="0,8,8,8">
-        <StackPanel x:Name="imgs" Margin="0" Orientation="Horizontal">
-            <Grid Width="257" Visibility="Collapsed">
-                <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Content="Button"  Margin="0" Width="60" Height="60" HorizontalContentAlignment="Center"/>
-                    <Button Content="Button" Margin="10,0,0,0" Width="60" Height="60"/>
-                </StackPanel>
-            </Grid>
+        Title="MainWindow" Background="#3FFFFFFF" BorderBrush="Black" Padding="0" Margin="0">
+    <Grid Margin="6">
+        <StackPanel Margin="0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="6,0,0,2">
+                <Button x:Name="InfoBtn" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Center" Click="InfoBtn_Click" ToolTip="Usage and licence informartions">
+                    <Image Source="Resources/informations.png" MinWidth="25" MinHeight="25" Width="25" IsEnabled="False"/>
+                </Button>
+                <Button x:Name="SettingsBtn" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Center" Click="SettingsBtn_Click" ToolTip="Settings">
+                    <Image Source="Resources/settings.png" MinWidth="25" MinHeight="25" Width="25" IsEnabled="False"/>
+                </Button>
+                <Button x:Name="HideBtn_Copy" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Center" Click="HideBtn_Click" ToolTip="Hide app, but don't close">
+                    <Image Source="Resources/hide.png" MinWidth="25" MinHeight="25" Width="25"/>
+                </Button>
+                <Button x:Name="CloseBtn" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Center" Click="CloseBtn_Click" ToolTip="Close app">
+                    <Image Source="Resources/close.png" MinWidth="25" MinHeight="25" Width="25"/>
+                </Button>
+            </StackPanel>
+            <StackPanel x:Name="imgs" Margin="0" Orientation="Horizontal"/>
         </StackPanel>
     </Grid>
 </Window>

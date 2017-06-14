@@ -63,8 +63,19 @@
     <Compile Include="CropWindow.xaml.cs">
       <DependentUpon>CropWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InfoWindow.xaml.cs">
+      <DependentUpon>InfoWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScreenCapture.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="CropWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -82,6 +93,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -109,10 +124,21 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\settings.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\crop.png" />
     <Resource Include="Resources\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\informations.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hide.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
