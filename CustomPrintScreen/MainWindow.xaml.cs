@@ -26,8 +26,13 @@ namespace CustomPrintScreen
 
         void _listener_OnKeyPressed(object sender, EventArgs e)
         {
-            Handler.CreateScreens();
-            DrawApplication();
+
+
+            if (Handler.Bitmaps.Count == 0)
+            {
+                Handler.CreateScreens();
+                DrawApplication();
+            }
             _listener.UnHookKeyboard();
             _listener.HookKeyboard();
         }

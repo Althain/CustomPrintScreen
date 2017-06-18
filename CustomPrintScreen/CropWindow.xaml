@@ -10,15 +10,12 @@
         ResizeMode="NoResize"
         Title="Cropping" Height="282.5" Width="517.5">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="3*"/>
-        </Grid.RowDefinitions>
-        <Canvas x:Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" Margin="1,1,1,0"/>
-        <Rectangle Fill="#B2808080" Stroke="Black" Grid.Row="1" Margin="1,0,0,0"/>
-        <StackPanel Margin="0,8,8,8" Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,8,0" Click="CancelBtn_Click" Height="21" VerticalAlignment="Center" Width="49"/>
-            <Button x:Name="SaveBtn" Content="Save" HorizontalAlignment="Right" Width="56" Height="21" Click="SaveBtn_Click" VerticalAlignment="Center"/>
+        <StackPanel Margin="1,0,0,0" Grid.RowSpan="2">
+            <Canvas x:Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" Margin="0,0,1,0" Height="2"/>
+            <StackPanel Margin="0,4,4,4" HorizontalAlignment="Right" Orientation="Horizontal" Height="23">
+                <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,8,0" Click="CancelBtn_Click" Height="21" VerticalAlignment="Center" Width="49"/>
+                <Button x:Name="SaveBtn" Content="Save" HorizontalAlignment="Right" Width="56" Height="21" Click="SaveBtn_Click" VerticalAlignment="Center"/>
+            </StackPanel>
         </StackPanel>
 
     </Grid>

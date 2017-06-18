@@ -66,17 +66,26 @@ namespace CustomPrintScreen
 
                 if (keyPressed == Key.PrintScreen && Keyboard.Modifiers == ModifierKeys.Control)
                 {
+                    if (Handler.Bitmaps.Count > 0 && Handler.AdvancedMode == false)
+                    {
+                        Handler.ClearData();
+                        (Handler.mainWindow as MainWindow).imgs.Children.Clear();
+                    }
+
                     Handler.AdvancedMode = true;
-                    if (OnKeyPressed != null)
-                        OnKeyPressed(this, new EventArgs());
+
+                    OnKeyPressed?.Invoke(this, new EventArgs());
                 }
                 else if (keyPressed == Key.PrintScreen)
                 {
-                    Handler.AdvancedMode = false;
-                    if (OnKeyPressed != null)
+                    if (Handler.Bitmaps.Count > 0 && Handler.AdvancedMode == true)
                     {
-                        OnKeyPressed(this, new EventArgs());
+                        Handler.ClearData();
+                        (Handler.mainWindow as MainWindow).imgs.Children.Clear();
                     }
+
+                    Handler.AdvancedMode = false;
+                    OnKeyPressed?.Invoke(this, new EventArgs());
                 }
                 else if (keyPressed == Key.Escape)
                 {

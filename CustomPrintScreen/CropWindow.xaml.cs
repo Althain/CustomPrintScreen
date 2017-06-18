@@ -10,18 +10,6 @@ using System.Diagnostics;
 
 namespace CustomPrintScreen
 {
-    struct RecoverRatios
-    {
-        public double Width;
-        public double Height;
-
-        public RecoverRatios(double widthRatio, double heightRatio)
-        {
-            Width = widthRatio;
-            Height = heightRatio;
-        }
-    }
-
     /// <summary>
     /// Logika interakcji dla klasy CropWindow.xaml
     /// </summary>
@@ -32,7 +20,7 @@ namespace CustomPrintScreen
         Rectangle[] Faders = new Rectangle[4];
         Point startPoint;
         double BitmapHeightWidthRatio;
-        RecoverRatios BitmapRecoverRatios;
+        double BitmapRecoverRatio;
 
         public int Id
         {
@@ -45,9 +33,8 @@ namespace CustomPrintScreen
                 canvas.Width = SystemParameters.PrimaryScreenWidth * 0.9d;
                 canvas.Height = SystemParameters.PrimaryScreenHeight * 0.9d;
 
-                BitmapRecoverRatios = new RecoverRatios();
-                BitmapRecoverRatios.Width = Handler.Bitmaps[Id].Width / canvas.Width;
-                BitmapRecoverRatios.Height = Handler.Bitmaps[Id].Height / canvas.Height;
+                
+                BitmapRecoverRatio = Handler.Bitmaps[Id].Width / canvas.Width;
 
                 ImageBrush brush = new ImageBrush();
                 brush.ImageSource = Handler.BitmapToImageSource(Handler.Bitmaps[id]);
@@ -70,16 +57,16 @@ namespace CustomPrintScreen
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            NewBitmap = new Drawing.Bitmap((int)CropArea.Width, (int)CropArea.Height);
+            NewBitmap = new Drawing.Bitmap((int)(CropArea.Width * BitmapRecoverRatio), (int)(CropArea.Height * BitmapRecoverRatio));
             Drawing.Graphics g = Drawing.Graphics.FromImage(NewBitmap);
 
             Debug.WriteLine(startPoint.ToString());
 
             Drawing.Rectangle area = new Drawing.Rectangle(
-                            (int)(startPoint.X* BitmapRecoverRatios.Width),
-                            (int)(startPoint.Y* BitmapRecoverRatios.Height),
-                            (int)(CropArea.Width* BitmapRecoverRatios.Width),
-                            (int)(CropArea.Height* BitmapRecoverRatios.Height));
+                            (int)(startPoint.X* BitmapRecoverRatio),
+                            (int)(startPoint.Y* BitmapRecoverRatio),
+                            (int)(CropArea.Width* BitmapRecoverRatio),
+                            (int)(CropArea.Height* BitmapRecoverRatio));
 
 
             g.DrawImage(Handler.Bitmaps[id], 0, 0, area, Drawing.GraphicsUnit.Pixel);
