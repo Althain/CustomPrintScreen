@@ -29,12 +29,13 @@ namespace CustomPrintScreen
         /// <summary>
         /// Time when last print screen was made. Used for file save.
         /// </summary>
-        static string ShotTime;
+        public static DateTime ShotTime;
 
         public static MainWindow mainWindow;
         public static CropWindow cropWindow;
         public static InfoWindow infoWindow;
         public static SettingsWindow settingsWindow;
+        public static ScreenNamePrompt namePrompt;
 
         /// <summary>
         /// Creates print screens, divides them into screens and saves in Handler.Bitmaps list
@@ -43,7 +44,7 @@ namespace CustomPrintScreen
         {
             mainWindow.HideWindow();
 
-            ShotTime = DateTime.Now.Year.ToString() + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute;
+            ShotTime = DateTime.Now;
 
             for (int i = 0; i < Forms.Screen.AllScreens.Length; i++)
             {
@@ -75,25 +76,87 @@ namespace CustomPrintScreen
         /// <param name="id">Pointer to index of an array</param>
         public static void SaveScreen(int id, bool hideAppAfter = true)
         {
-            Bitmaps[id]?.Save(GetFirstAvailableScreenName(), DrawingImg.ImageFormat.Png);
+            if (Settings.AskForScreenName)
+            {
+                if (namePrompt == null)
+                {
+                    namePrompt = new ScreenNamePrompt();
+                    namePrompt.BitmapId = id;
+                    namePrompt.Show();
+                    namePrompt.Topmost = true;
+                }
+            }
+            else
+            {
+                OutputScreen(id);
 
-            if (hideAppAfter)
-                Handler.mainWindow.HideWindow(true);
-            
+                if (hideAppAfter)
+                    Handler.mainWindow.HideWindow(true);
+            }
         }
 
-        public static string GetFirstAvailableScreenName()
+        /// <summary>
+        /// Outputs the screen to desktop with name of capture date
+        /// </summary>
+        /// <param name="id">Index of bitmap in array</param>
+        /// <param name="filename">(w/o extension)If given, saves the screen with this name</param>
+        public static void OutputScreen(int id, string filename = "")
         {
-            string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            // if parameter is default, than generate name basing on the date
+            if (filename.Equals(""))
+                filename = GenerateFilenameBasedOnDate();
+
+            // If file with given name exists, than add a number at its end
+            filename = GetAvailableName(filename);
+
+            // Convert name to path on desktop and add extension
+            filename = Settings.SaveDirectory + filename + ".png";
+
+            // save
+            Bitmaps[id]?.Save(filename, DrawingImg.ImageFormat.Png);
+        }
+
+        /// <summary>
+        /// Returns a filename(w/o extension) basing on the date.
+        /// </summary>
+        /// <returns></returns>
+        static string GenerateFilenameBasedOnDate()
+        {
+            string filename = ShotTime.ToString(Settings.DateFormat);
+
+            filename = GetAvailableName(filename);
+
+            return filename;
+        }
+
+        /// <summary>
+        /// Returns name with additional number at the end if given name exists on desktop 
+        /// </summary>
+        /// <param name="basename">name of file w/o extension</param>
+        /// <returns>Parameter basename with additional number at the end</returns>
+        static string GetAvailableName(string basename)
+        {
             for (int i = 0; ; i++)
             {
                 string add = i > 0 ? i.ToString() : "";
-                string fullname = DesktopPath + "/" + ShotTime + add + ".png";
+                string fullname = Settings.SaveDirectory + basename + add + ".png";
                 if (!File.Exists(fullname))
                 {
-                    return fullname;
+                    return basename + add;
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns string with path, available filename and extension
+        /// </summary>
+        /// <param name="filename">If not given, than it's date</param>
+        /// <returns></returns>
+        public static string GetFullPath(string filename = "")
+        {
+            if(filename.Equals(""))
+                return Settings.SaveDirectory + GetAvailableName(ShotTime.ToString(Settings.DateFormat)) + ".png";
+            else return Settings.SaveDirectory + GetAvailableName(filename) + ".png";
         }
 
         /// <summary>

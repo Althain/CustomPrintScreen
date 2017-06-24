@@ -17,6 +17,8 @@ namespace CustomPrintScreen
             _listener.OnKeyPressed += _listener_OnKeyPressed;
             _listener.HookKeyboard();
 
+            Settings.Load();
+
             (InfoBtn.Content as Image).Width = Forms.Screen.PrimaryScreen.WorkingArea.Width * 0.016f;
             (SettingsBtn.Content as Image).Width = Forms.Screen.PrimaryScreen.WorkingArea.Width * 0.016f;
             (CloseBtn.Content as Image).Width = Forms.Screen.PrimaryScreen.WorkingArea.Width * 0.016f;
@@ -26,13 +28,12 @@ namespace CustomPrintScreen
 
         void _listener_OnKeyPressed(object sender, EventArgs e)
         {
-
-
             if (Handler.Bitmaps.Count == 0)
             {
                 Handler.CreateScreens();
                 DrawApplication();
             }
+
             _listener.UnHookKeyboard();
             _listener.HookKeyboard();
         }
@@ -206,8 +207,8 @@ namespace CustomPrintScreen
 
         void OpenSettingsWindow()
         {
-            MessageBox.Show("Not done yet");
-            return;
+            //MessageBox.Show("Not done yet");
+            //return;
 
             Hide();
             Handler.settingsWindow = new SettingsWindow();

@@ -7,6 +7,7 @@ using DrawingImg = System.Drawing.Imaging;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace CustomPrintScreen
 {
@@ -57,23 +58,46 @@ namespace CustomPrintScreen
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            NewBitmap = new Drawing.Bitmap((int)(CropArea.Width * BitmapRecoverRatio), (int)(CropArea.Height * BitmapRecoverRatio));
-            Drawing.Graphics g = Drawing.Graphics.FromImage(NewBitmap);
+            if (Settings.AskForScreenName && Handler.namePrompt == null)
+            {
+                Handler.namePrompt = new ScreenNamePrompt();
+                Handler.namePrompt.BitmapId = id;
+                Handler.namePrompt.Show();
+            }
+            else
+            {
+                OutputCroppedImage();
+            }
+        }
 
-            Debug.WriteLine(startPoint.ToString());
+        /// <summary>
+        /// Outputs filename
+        /// </summary>
+        /// <param name="filename">file name w/o extension</param>
+        public void OutputCroppedImage(string filename = "")
+        {
+            filename = Handler.GetFullPath(filename);
 
-            Drawing.Rectangle area = new Drawing.Rectangle(
-                            (int)(startPoint.X* BitmapRecoverRatio),
-                            (int)(startPoint.Y* BitmapRecoverRatio),
-                            (int)(CropArea.Width* BitmapRecoverRatio),
-                            (int)(CropArea.Height* BitmapRecoverRatio));
+            if (CropArea != null)
+            {
+                NewBitmap = new Drawing.Bitmap((int)(CropArea.Width * BitmapRecoverRatio), (int)(CropArea.Height * BitmapRecoverRatio));
+                Drawing.Graphics g = Drawing.Graphics.FromImage(NewBitmap);
+
+                Drawing.Rectangle area = new Drawing.Rectangle(
+                                (int)(startPoint.X * BitmapRecoverRatio),
+                                (int)(startPoint.Y * BitmapRecoverRatio),
+                                (int)(CropArea.Width * BitmapRecoverRatio),
+                                (int)(CropArea.Height * BitmapRecoverRatio));
 
 
-            g.DrawImage(Handler.Bitmaps[id], 0, 0, area, Drawing.GraphicsUnit.Pixel);
-            NewBitmap.Save(Handler.GetFirstAvailableScreenName(), DrawingImg.ImageFormat.Png);
+                g.DrawImage(Handler.Bitmaps[id], 0, 0, area, Drawing.GraphicsUnit.Pixel);
+                NewBitmap.Save(filename, DrawingImg.ImageFormat.Png);
 
-            g.Dispose();
-            NewBitmap.Dispose();
+                g.Dispose();
+                NewBitmap.Dispose();
+            }
+            else Handler.OutputScreen(id);
+
             Handler.mainWindow.Show();
             Close();
         }
@@ -182,6 +206,12 @@ namespace CustomPrintScreen
             // bottom rect
             Canvas.SetLeft(Faders[3], 0);
             Faders[3].Width = canvas.Width;
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            Handler.cropWindow = null;
+            e.Cancel = false;
         }
     }
 }

@@ -22,5 +22,53 @@ namespace CustomPrintScreen.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PopupOnOneMonitor {
+            get {
+                return ((bool)(this["PopupOnOneMonitor"]));
+            }
+            set {
+                this["PopupOnOneMonitor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AskForScreenName {
+            get {
+                return ((bool)(this["AskForScreenName"]));
+            }
+            set {
+                this["AskForScreenName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SaveDirectory {
+            get {
+                return ((string)(this["SaveDirectory"]));
+            }
+            set {
+                this["SaveDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MMdd HH:mm")]
+        public string DateFormat {
+            get {
+                return ((string)(this["DateFormat"]));
+            }
+            set {
+                this["DateFormat"] = value;
+            }
+        }
     }
 }

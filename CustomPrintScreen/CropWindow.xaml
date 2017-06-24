@@ -8,6 +8,7 @@
         WindowStartupLocation="CenterScreen"
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
+        Closing="Window_Closing"
         Title="Cropping" Height="282.5" Width="517.5">
     <Grid>
         <StackPanel Margin="1,0,0,0" Grid.RowSpan="2">

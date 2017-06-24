@@ -8,26 +8,35 @@
         WindowStartupLocation="CenterScreen"
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
-        Title="Settings" Height="207.318" Width="417.819">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="29*"/>
-            <RowDefinition Height="74*"/>
-            <RowDefinition Height="33*"/>
-        </Grid.RowDefinitions>
-        <Label Content="Settings" FontSize="16" Margin="0" Padding="2"/>
-        <ListBox Grid.Row="1" VerticalContentAlignment="Top">
-            <CheckBox x:Name="SetPopupOnOneMonitor" Content="Pop up selection while having one monitor" Width="295" FontSize="14" HorizontalContentAlignment="Stretch"/>
-            <CheckBox x:Name="StAskForScreenName" Content="Ask for screen name every time" Width="295" FontSize="14" HorizontalContentAlignment="Stretch"/>
-            <StackPanel Orientation="Horizontal" Width="402">
-                <Button Content="" Width="21" Margin="0" Click="Button_Click"/>
-                <TextBox TextWrapping="Wrap" Text="TextBox" FontSize="14" Margin="0" Width="229"/>
-                <TextBlock TextWrapping="WrapWithOverflow" Margin="0" FontSize="14"><Run Text="Screens save path"/></TextBlock>
+        Title="Settings">
+    <Grid Margin="0,0,0,6">
+        <StackPanel Grid.RowSpan="3">
+            <Label Content="Settings" FontSize="24" Margin="0" Padding="2"/>
+            <ListBox VerticalContentAlignment="Top" Margin="0">
+                <CheckBox x:Name="StPopupOnOneMonitor" Content="Pop up selection while having one monitor" Width="295" FontSize="14" HorizontalContentAlignment="Stretch"/>
+                <CheckBox x:Name="StAskForScreenName" Content="Ask for filename every time" Width="295" FontSize="14" HorizontalContentAlignment="Stretch"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel HorizontalAlignment="Left" Margin="0,0,16,0">
+                        <Label Content="Date format" FontSize="14" Padding="4,5,5,0"/>
+                        <TextBox x:Name="StDateFormat" FontSize="14" Padding="2,0" Margin="0" MinWidth="120" TextChanged="StDateFormat_TextChanged"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left">
+                        <Label Content="Preview" FontSize="14" Padding="4,5,5,0"/>
+                        <TextBox x:Name="StDateFormatPreview" FontSize="14" Padding="2,0" Margin="0" IsEnabled="False" MinWidth="120"/>
+                    </StackPanel>
+                </StackPanel>
+                <Label Content="Screens save directory" FontSize="14" Padding="4,5,5,0"/>
+                <StackPanel Orientation="Horizontal" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <TextBox x:Name="StDirectory" FontSize="14" Margin="0" IsEnabled="False" Width="377"/>
+                    <Button Width="21" Margin="0" Click="Button_Click">
+                        <Image Source="Resources/folder.png"/>
+                    </Button>
+                </StackPanel>
+            </ListBox>
+            <StackPanel HorizontalAlignment="Right" Margin="0,4,4,0" VerticalAlignment="Center" Orientation="Horizontal">
+                <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,4,0" VerticalAlignment="Center" Width="50" Click="CancelBtn_Click"/>
+                <Button x:Name="SaveBtn" Content="Save" HorizontalAlignment="Right" Margin="0,0,4,0" VerticalAlignment="Center" Width="50" Click="SaveBtn_Click"/>
             </StackPanel>
-        </ListBox>
-        <StackPanel HorizontalAlignment="Right" Margin="150,0,0,0" Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal">
-            <Button x:Name="CancelBtn" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,4,0" VerticalAlignment="Center" Width="50" Click="CancelBtn_Click"/>
-            <Button x:Name="SaveBtn" Content="Save" HorizontalAlignment="Right" Margin="0,0,4,0" VerticalAlignment="Center" Width="50" Click="SaveBtn_Click"/>
         </StackPanel>
     </Grid>
 </Window>
