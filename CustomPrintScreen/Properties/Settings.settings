@@ -12,7 +12,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DateFormat" Type="System.String" Scope="User">
-      <Value Profile="(Default)">MMdd HH:mm</Value>
+      <Value Profile="(Default)">MMdd HHmm</Value>
     </Setting>
   </Settings>
 </SettingsFile>

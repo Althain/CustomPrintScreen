@@ -17,8 +17,6 @@ namespace CustomPrintScreen
             _listener.OnKeyPressed += _listener_OnKeyPressed;
             _listener.HookKeyboard();
 
-            Settings.Load();
-
             (InfoBtn.Content as Image).Width = Forms.Screen.PrimaryScreen.WorkingArea.Width * 0.016f;
             (SettingsBtn.Content as Image).Width = Forms.Screen.PrimaryScreen.WorkingArea.Width * 0.016f;
             (CloseBtn.Content as Image).Width = Forms.Screen.PrimaryScreen.WorkingArea.Width * 0.016f;

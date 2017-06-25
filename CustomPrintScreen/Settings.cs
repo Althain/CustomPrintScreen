@@ -1,33 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CustomPrintScreen
 {
     class Settings
     {
-        public static bool PopupOnOneMonitor = true;
-        public static bool AskForScreenName = true;
+        public static bool PopupOnOneMonitor;
+        public static bool AskForScreenName;
 
         /// <summary>
         /// Directory where image will besaved (desktop by default)
         /// </summary>
         public static string SaveDirectory;
-        public static string DateFormat = "MMdd HHmm";
+        public static string DateFormat;
 
         public static void Load()
         {
-            PopupOnOneMonitor = Properties.Settings.Default.PopupOnOneMonitor;
-            AskForScreenName = Properties.Settings.Default.AskForScreenName;
+            if (DoesSettingExist("PopupOnOneMonitor"))
+                PopupOnOneMonitor = Properties.Settings.Default.PopupOnOneMonitor;
+            else PopupOnOneMonitor = false;
 
-            if (Properties.Settings.Default.SaveDirectory.Length == 0)
+            if (DoesSettingExist("AskForScreenName"))
+                AskForScreenName = Properties.Settings.Default.AskForScreenName;
+            else AskForScreenName = false;
+
+            if (DoesSettingExist("SaveDirectory") && Properties.Settings.Default.SaveDirectory.Length == 0)
                 SaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";
             else SaveDirectory = Properties.Settings.Default.SaveDirectory;
 
-            DateFormat = Properties.Settings.Default.DateFormat;
+            if (DoesSettingExist("DateFormat"))
+                DateFormat = Properties.Settings.Default.DateFormat;
+            else DateFormat = "MMdd HHmm";
 
+            Save();
         }
 
         public static void Save()
@@ -37,6 +43,11 @@ namespace CustomPrintScreen
             Properties.Settings.Default.SaveDirectory = SaveDirectory;
             Properties.Settings.Default.DateFormat = DateFormat;
             Properties.Settings.Default.Save();
+        }
+
+        static bool DoesSettingExist(string settingName)
+        {
+            return Properties.Settings.Default.Properties.Cast<SettingsProperty>().Any(prop => prop.Name == settingName);
         }
     }
 }

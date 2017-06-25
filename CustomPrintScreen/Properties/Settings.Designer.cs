@@ -61,7 +61,7 @@ namespace CustomPrintScreen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MMdd HH:mm")]
+        [global::System.Configuration.DefaultSettingValueAttribute("MMdd HHmm")]
         public string DateFormat {
             get {
                 return ((string)(this["DateFormat"]));
